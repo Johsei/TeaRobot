@@ -37,9 +37,9 @@ while(1):
 	params.blobColor = 255
 
 	# Change thresholds
-	params.minThreshold = 155
+	params.minThreshold = 100
 	params.maxThreshold = 255
-	params.thresholdStep = 5
+	params.thresholdStep = 2
 
 	# Filter by Area.
 	params.filterByArea = False
