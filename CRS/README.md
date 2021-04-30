@@ -1,0 +1,1 @@
+CRS = Cup Recognition System
