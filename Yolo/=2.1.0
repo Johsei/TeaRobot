@@ -1,0 +1,63 @@
+Looking in indexes: https://pypi.org/simple, https://www.piwheels.org/simple
+Collecting onnx
+  Using cached onnx-1.9.0.tar.gz (9.8 MB)
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'done'
+  Installing backend dependencies: started
+  Installing backend dependencies: finished with status 'done'
+    Preparing wheel metadata: started
+    Preparing wheel metadata: finished with status 'done'
+Requirement already satisfied: numpy in /home/pi/.virtualenvs/cv/lib/python3.7/site-packages (1.20.1)
+Collecting torch
+  Using cached torch-0.1.2.post2.tar.gz (128 kB)
+Collecting torchvision
+  Using cached torchvision-0.2.2.post3-py2.py3-none-any.whl (64 kB)
+Requirement already satisfied: tensorflow in /home/pi/.virtualenvs/cv/lib/python3.7/site-packages (1.14.0)
+Requirement already satisfied: protobuf in /home/pi/.virtualenvs/cv/lib/python3.7/site-packages (from onnx) (3.15.8)
+Requirement already satisfied: six in /home/pi/.virtualenvs/cv/lib/python3.7/site-packages (from onnx) (1.15.0)
+Requirement already satisfied: typing-extensions>=3.6.2.1 in /home/pi/.virtualenvs/cv/lib/python3.7/site-packages (from onnx) (3.10.0.0)
+Collecting pyyaml
+  Downloading https://www.piwheels.org/simple/pyyaml/PyYAML-5.4.1-cp37-cp37m-linux_armv7l.whl (45 kB)
+Requirement already satisfied: pillow>=4.1.1 in /home/pi/.virtualenvs/cv/lib/python3.7/site-packages (from torchvision) (8.1.2)
+Requirement already satisfied: wrapt>=1.11.1 in /home/pi/.virtualenvs/cv/lib/python3.7/site-packages (from tensorflow) (1.12.1)
+Requirement already satisfied: google-pasta>=0.1.6 in /home/pi/.virtualenvs/cv/lib/python3.7/site-packages (from tensorflow) (0.2.0)
+Requirement already satisfied: keras-applications>=1.0.8 in /home/pi/.virtualenvs/cv/lib/python3.7/site-packages (from tensorflow) (1.0.8)
+Requirement already satisfied: grpcio>=1.8.6 in /home/pi/.virtualenvs/cv/lib/python3.7/site-packages (from tensorflow) (1.37.1)
+Requirement already satisfied: tensorflow-estimator<1.15.0rc0,>=1.14.0rc0 in /home/pi/.virtualenvs/cv/lib/python3.7/site-packages (from tensorflow) (1.14.0)
+Requirement already satisfied: gast==0.2.2 in /home/pi/.virtualenvs/cv/lib/python3.7/site-packages (from tensorflow) (0.2.2)
+Requirement already satisfied: astor>=0.6.0 in /home/pi/.virtualenvs/cv/lib/python3.7/site-packages (from tensorflow) (0.8.1)
+Requirement already satisfied: tensorboard<2.1.0,>=2.0.0 in /home/pi/.virtualenvs/cv/lib/python3.7/site-packages (from tensorflow) (2.0.2)
+Requirement already satisfied: absl-py>=0.7.0 in /home/pi/.virtualenvs/cv/lib/python3.7/site-packages (from tensorflow) (0.12.0)
+Requirement already satisfied: wheel>=0.26 in /home/pi/.virtualenvs/cv/lib/python3.7/site-packages (from tensorflow) (0.36.2)
+Requirement already satisfied: keras-preprocessing>=1.0.5 in /home/pi/.virtualenvs/cv/lib/python3.7/site-packages (from tensorflow) (1.1.2)
+Requirement already satisfied: opt-einsum>=2.3.2 in /home/pi/.virtualenvs/cv/lib/python3.7/site-packages (from tensorflow) (3.3.0)
+Requirement already satisfied: termcolor>=1.1.0 in /home/pi/.virtualenvs/cv/lib/python3.7/site-packages (from tensorflow) (1.1.0)
+Requirement already satisfied: h5py in /home/pi/.virtualenvs/cv/lib/python3.7/site-packages (from keras-applications>=1.0.8->tensorflow) (3.2.1)
+Requirement already satisfied: google-auth-oauthlib<0.5,>=0.4.1 in /home/pi/.virtualenvs/cv/lib/python3.7/site-packages (from tensorboard<2.1.0,>=2.0.0->tensorflow) (0.4.4)
+Requirement already satisfied: google-auth<2,>=1.6.3 in /home/pi/.virtualenvs/cv/lib/python3.7/site-packages (from tensorboard<2.1.0,>=2.0.0->tensorflow) (1.30.0)
+Requirement already satisfied: requests<3,>=2.21.0 in /home/pi/.virtualenvs/cv/lib/python3.7/site-packages (from tensorboard<2.1.0,>=2.0.0->tensorflow) (2.25.1)
+Requirement already satisfied: markdown>=2.6.8 in /home/pi/.virtualenvs/cv/lib/python3.7/site-packages (from tensorboard<2.1.0,>=2.0.0->tensorflow) (3.3.4)
+Requirement already satisfied: werkzeug>=0.11.15 in /home/pi/.virtualenvs/cv/lib/python3.7/site-packages (from tensorboard<2.1.0,>=2.0.0->tensorflow) (1.0.1)
+Requirement already satisfied: setuptools>=41.0.0 in /home/pi/.virtualenvs/cv/lib/python3.7/site-packages (from tensorboard<2.1.0,>=2.0.0->tensorflow) (52.0.0)
+Requirement already satisfied: rsa<5,>=3.1.4 in /home/pi/.virtualenvs/cv/lib/python3.7/site-packages (from google-auth<2,>=1.6.3->tensorboard<2.1.0,>=2.0.0->tensorflow) (4.7.2)
+Requirement already satisfied: pyasn1-modules>=0.2.1 in /home/pi/.virtualenvs/cv/lib/python3.7/site-packages (from google-auth<2,>=1.6.3->tensorboard<2.1.0,>=2.0.0->tensorflow) (0.2.8)
+Requirement already satisfied: cachetools<5.0,>=2.0.0 in /home/pi/.virtualenvs/cv/lib/python3.7/site-packages (from google-auth<2,>=1.6.3->tensorboard<2.1.0,>=2.0.0->tensorflow) (4.2.2)
+Requirement already satisfied: requests-oauthlib>=0.7.0 in /home/pi/.virtualenvs/cv/lib/python3.7/site-packages (from google-auth-oauthlib<0.5,>=0.4.1->tensorboard<2.1.0,>=2.0.0->tensorflow) (1.3.0)
+Requirement already satisfied: importlib-metadata in /home/pi/.virtualenvs/cv/lib/python3.7/site-packages (from markdown>=2.6.8->tensorboard<2.1.0,>=2.0.0->tensorflow) (4.0.1)
+Requirement already satisfied: pyasn1<0.5.0,>=0.4.6 in /home/pi/.virtualenvs/cv/lib/python3.7/site-packages (from pyasn1-modules>=0.2.1->google-auth<2,>=1.6.3->tensorboard<2.1.0,>=2.0.0->tensorflow) (0.4.8)
+Requirement already satisfied: urllib3<1.27,>=1.21.1 in /home/pi/.virtualenvs/cv/lib/python3.7/site-packages (from requests<3,>=2.21.0->tensorboard<2.1.0,>=2.0.0->tensorflow) (1.26.4)
+Requirement already satisfied: idna<3,>=2.5 in /home/pi/.virtualenvs/cv/lib/python3.7/site-packages (from requests<3,>=2.21.0->tensorboard<2.1.0,>=2.0.0->tensorflow) (2.10)
+Requirement already satisfied: chardet<5,>=3.0.2 in /home/pi/.virtualenvs/cv/lib/python3.7/site-packages (from requests<3,>=2.21.0->tensorboard<2.1.0,>=2.0.0->tensorflow) (4.0.0)
+Requirement already satisfied: certifi>=2017.4.17 in /home/pi/.virtualenvs/cv/lib/python3.7/site-packages (from requests<3,>=2.21.0->tensorboard<2.1.0,>=2.0.0->tensorflow) (2020.12.5)
+Requirement already satisfied: oauthlib>=3.0.0 in /home/pi/.virtualenvs/cv/lib/python3.7/site-packages (from requests-oauthlib>=0.7.0->google-auth-oauthlib<0.5,>=0.4.1->tensorboard<2.1.0,>=2.0.0->tensorflow) (3.1.0)
+Requirement already satisfied: cached-property in /home/pi/.virtualenvs/cv/lib/python3.7/site-packages (from h5py->keras-applications>=1.0.8->tensorflow) (1.5.2)
+Requirement already satisfied: zipp>=0.5 in /home/pi/.virtualenvs/cv/lib/python3.7/site-packages (from importlib-metadata->markdown>=2.6.8->tensorboard<2.1.0,>=2.0.0->tensorflow) (3.4.1)
+Building wheels for collected packages: onnx, torch
+  Building wheel for onnx (PEP 517): started
+  Building wheel for onnx (PEP 517): finished with status 'error'
+  Building wheel for torch (setup.py): started
+  Building wheel for torch (setup.py): finished with status 'error'
+  Running setup.py clean for torch
+Failed to build onnx torch
