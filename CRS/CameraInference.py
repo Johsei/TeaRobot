@@ -19,7 +19,12 @@ if not (cap.isOpened()):
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
 
-img = cap.read()
+ret, img = cap.read()
+
+if not ret:
+    print('Camera didnt return an image! ERROR')
+else:
+    print('Camera image sucessfully received.')
 
 # Model Settings
 model.conf = 0.3
@@ -29,12 +34,16 @@ model.conf = 0.3
 results = model(img, size=416)  # includes NMS
 
 # Results
+print('RESULTS:')
 results.print()
-results.save()  # or .show()
+#results.save()
 
-results.xyxy[0]  # img1 predictions (tensor)
-results.pandas().xyxy[0]  # img1 predictions (pandas)
+print(results.pandas().xyxy[0])  # img1 predictions (pandas)
 
+results_numpy = results.xyxy[0].numpy()[:,:]
+
+#print(results_numpy)
+print('Anzahl Tassen:', len(results_numpy))
 
 # Release Camera
 cap.release()
