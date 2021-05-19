@@ -1,6 +1,5 @@
 print('Cup Recognition System Initializing...')
 
-import sys
 import cv2
 import torch
 from PIL import Image
@@ -12,8 +11,6 @@ from matplotlib import pyplot as plt
 from Adafruit_AMG88xx import Adafruit_AMG88xx
 from scipy.interpolate import griddata
 from time import sleep
-
-this = sys.modules[__name__]
 
 # Create coordinate class and objects
 class Coordinates():
@@ -69,11 +66,13 @@ def initialize():
 	sleep(.1)
 	print('Sensor, Camera and ML Model initialized!')
 
-def detect():
+def detect(flag_show):
 
 	global ir_coords, ml_coords, ml_size
 
-	# --------------------------------- Thermalcam
+	# --------------------------------- Thermalcam detection
+
+	print('\n-- Thermal Camera Detection --')
 
 	# Read pixels, map them to an 8x8 grid
 	pixels = sensor.readPixels()
@@ -90,6 +89,11 @@ def detect():
 
 	# Read image into OpenCV -> TODO: Make this faster/abandon the step of saving and loading img
 	img_ir = cv2.imread("img_thermal.jpg", cv2.IMREAD_GRAYSCALE)
+
+	# Show window if show flag is set
+	if flag_show:
+		cv2.imshow("ThermalCam", img_ir)
+		cv2.waitKey(0)
 
 	# Setup SimpleBlobDetector parameters.
 	params = cv2.SimpleBlobDetector_Params()
@@ -143,26 +147,36 @@ def detect():
 	else:
 		# One cup detected - Standardize Coordinates
 		ir_coords = standardizeCoords(keypoints[0].pt[0], keypoints[0].pt[1], ir_dim.x, ir_dim.y)
-	print('IR - Koordinaten der Tasse: ', ir_coords.x, ir_coords.y)
+	print('Koordinaten der Tasse: ', ir_coords.x, ir_coords.y)
 
-	#---------------------------- Inference
+	#---------------------------- ML Inference
+
+	print('\n-- Machine Learning Inference --')
 
 	ret, img = cap.read()
 
 	if not ret:
 		print('Camera didnt return an image! ERROR')
-	else:
-		print('Camera image sucessfully received.')
+	#else:
+		#print('Camera image sucessfully received.')
+
+	 # Show Image if flag ist set
+	if flag_show:
+		cv2.imshow("Raspberry Cam", img)
+		cv2.waitKey(0)
 
 	# Inference
 	results = model(img, size=416)  # includes NMS
 
-	# Results
-	print('RESULTS:')
-	results.print()
-	results.save()
+	if flag_show:
+		results.render()
+		cv2.imshow("Inference Results", results.imgs[0])
+		cv2.waitKey(0)
 
-	print(results.pandas().xyxy[0])  # img1 predictions (pandas)
+	# Results
+	#results.print()
+	#results.show()
+	#print(results.pandas().xyxy[0])  # img1 predictions (pandas)
 
 	results_numpy = results.xyxy[0].numpy()[:,:]
 
@@ -180,13 +194,15 @@ def detect():
 	else:
 		# One Cup detected - standardize coordinates
 		ml_coords = standardizeCoords(giveCenter(results_numpy[0,0], results_numpy[0,2]), giveCenter(results_numpy[0,1], results_numpy[0,3]), ml_dim.x, ml_dim.y)
-		print('ML - Koordinaten der Tasse: ', ml_coords.x, ml_coords.y)
+		print('Koordinaten der Tasse: ', ml_coords.x, ml_coords.y)
 		ml_size.x = results_numpy[0,2] - results_numpy[0,0]
 		ml_size.y = results_numpy[0,3] - results_numpy[0,1]
 		ml_size = standardizeCoords(ml_size.x, ml_size.y, ml_dim.x, ml_dim.y)
-		print('ML - Groesse der Tasse: ', ml_size.x, ml_size.y)
+		print('Groesse der Tasse: ', ml_size.x, ml_size.y)
+
+	return ir_success, ml_success, ir_coords, ml_coords, ml_size
 
 def deinitialize():
 	# Release Camera
 	cap.release()
-	print('deinitialized!')
+	cv2.destroyAllWindows()

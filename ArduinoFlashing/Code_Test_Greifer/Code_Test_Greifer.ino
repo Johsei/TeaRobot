@@ -7,14 +7,17 @@ Servo elbow;
 Servo wrist_rot;
 Servo wrist_ver;
 Servo gripper;
+Servo camera;
 
 int vspeed = 20;
 int vbase = 10;
 int vshoulder, velbow, vwrist_rot, vwrist_ver = 90;
 int vgripper = 73;
+int camera_position = 0;
 
 void setup() {
   Serial.begin(9600);
+  camera.attach(10);
   Braccio.begin();
   Braccio.ServoMovement(10, 10, 90, 90, 90, 90,  vgripper);
 }
@@ -22,8 +25,6 @@ void setup() {
 void loop() {
   if (Serial.available() > 0) {
     String data = Serial.readStringUntil('\n');
-    Serial.print("You sent me: ");
-    Serial.println(data);
     
     if(data == "Greifer zu") {
       Serial.println(data + " wurde erkannt. Greifer wird geschlossen");
@@ -33,6 +34,22 @@ void loop() {
       Serial.println(data + " wurde erkannt. Greifer wird geöffnet");
       Greiferauf();
     }
+    /* else if(data == "Kamera 1") {
+      Serial.println(data + " wurde erkannt. Kamera wird gedreht");
+      while (camera_position <= 180) {
+        camera.write(camera_position);
+        delay(30);
+        camera_position++;
+      }
+    }
+    else if(data == "Kamera 2") {
+      Serial.println(data + " wurde erkannt. Kamera wird gedreht");
+      while (camera_position <= 0) {
+        camera.write(camera_position);
+        delay(30);
+        camera_position--;
+      }
+    } */
     else if(data == "Rechts 90") {
       Serial.println(data + " wurde erkannt. Roboter wird bewegt");
       vbase += 90;
@@ -42,6 +59,14 @@ void loop() {
       Serial.println(data + " wurde erkannt. Roboter wird bewegt");
       vbase -= 90;
       Braccio.ServoMovement(vspeed, vbase, vshoulder, velbow, vwrist_rot, vwrist_ver,  vgripper);
+    }
+    else if(data == "Base 0") {
+      Serial.println(data + " wurde erkannt. Roboter wird bewegt");
+      Base0();
+    }
+    else if(data == "Base 180") {
+      Serial.println(data + " wurde erkannt. Roboter wird bewegt");
+      Base180();
     }
     else if(data == "Position 0") {
       Serial.println(data + " wurde erkannt. Roboter wird bewegt");
@@ -54,6 +79,14 @@ void loop() {
     else if(data == "Position 2") {
       Serial.println(data + " wurde erkannt. Roboter wird bewegt");
       Position2();
+    }
+    else if(data == "Position 21") {
+      Serial.println(data + " wurde erkannt. Roboter wird bewegt");
+      Position21();
+    }
+    else if(data == "Position 22") {
+      Serial.println(data + " wurde erkannt. Roboter wird bewegt");
+      Position22();
     }
     else if(data == "Position 3") {
       Serial.println(data + " wurde erkannt. Roboter wird bewegt");
@@ -68,8 +101,8 @@ void loop() {
       Position5();
     }
     else if(data == "Greifen") {
-      delay(3000);
       Serial.println(data + " wurde erkannt. Roboter wird bewegt");
+      delay(500);
       Position1();
       delay(500);
       Greiferauf();
@@ -78,14 +111,20 @@ void loop() {
       Greiferzu();
       Position3();
       delay(500);
+      Position3();
+      delay(500);
       Position4();
       delay(500);
       Position5();
       delay(500);
-      Position1();
+      Position6();
       delay(500);
       Greiferauf();
     }
+    else{
+      Serial.print("You sent me the unknown command: ");
+      Serial.println(data);
+    } 
   }
 }
 
@@ -97,8 +136,23 @@ void Greiferzu() {
     vgripper = 73;
     Braccio.ServoMovement(vspeed, vbase, vshoulder, velbow, vwrist_rot, vwrist_ver,  vgripper);
 }
+void Base0() {
+    vbase = 0;
+    vshoulder = 90;
+    velbow = 90;
+    vwrist_rot = 90;
+    vwrist_ver = 90;
+    Braccio.ServoMovement(vspeed, vbase, vshoulder, velbow, vwrist_rot, vwrist_ver,  vgripper);
+}
+void Base180() {
+    vbase = 180;
+    vshoulder = 90;
+    velbow = 90;
+    vwrist_rot = 90;
+    vwrist_ver = 90;
+    Braccio.ServoMovement(vspeed, vbase, vshoulder, velbow, vwrist_rot, vwrist_ver,  vgripper);
+}
 void Position0() {
-    vbase = 10;
     vshoulder = 90;
     velbow = 90;
     vwrist_rot = 90;
@@ -106,7 +160,7 @@ void Position0() {
     Braccio.ServoMovement(vspeed, vbase, vshoulder, velbow, vwrist_rot, vwrist_ver,  vgripper);
 }
 void Position1() {
-    vbase = 0;
+    vbase = 180;
     vshoulder = 90;
     velbow = 105;
     vwrist_rot = 150;
@@ -114,39 +168,38 @@ void Position1() {
     Braccio.ServoMovement(vspeed, vbase, vshoulder, velbow, vwrist_rot, vwrist_ver,  vgripper);
 }
 void Position2() {
-    vbase = 10;
-    vshoulder = 93;
-    velbow = 110;
-    vwrist_rot = 175;
-    vwrist_ver = 100;
+    vbase = 180;
+    vshoulder = 90;
+    velbow = 111;
+    vwrist_rot = 170;
+    vwrist_ver = 80;
+    Braccio.ServoMovement(vspeed, vbase, vshoulder, velbow, vwrist_rot, vwrist_ver,  vgripper);
+}
+void Position21() {
+    vwrist_ver -= 10;
+    Braccio.ServoMovement(vspeed, vbase, vshoulder, velbow, vwrist_rot, vwrist_ver,  vgripper);
+}
+void Position22() {
+    vwrist_ver += 10;
     Braccio.ServoMovement(vspeed, vbase, vshoulder, velbow, vwrist_rot, vwrist_ver,  vgripper);
 }
 void Position3() {
-    vbase = 10;
-    vshoulder = 93;
-    velbow = 110;
-    vwrist_rot = 170;
-    vwrist_ver = 100;
+    velbow -= 3;
     Braccio.ServoMovement(vspeed, vbase, vshoulder, velbow, vwrist_rot, vwrist_ver,  vgripper);
 }
 void Position4() {
-    vbase = 0;
-    vshoulder = 93;
-    velbow = 110;
-    vwrist_rot = 170;
-    vwrist_ver = 100;
+    vbase -= 10;
     Braccio.ServoMovement(vspeed, vbase, vshoulder, velbow, vwrist_rot, vwrist_ver,  vgripper);
 }
 void Position5() {
-    vbase = 0;
-    vbase = 0;
-    vshoulder = 90;
-    velbow = 105;
-    vwrist_rot = 150;
-    vwrist_ver = 90;
+    vshoulder -= 3;
+    velbow -= 5;
+    vwrist_rot -= 20;
     Braccio.ServoMovement(vspeed, vbase, vshoulder, velbow, vwrist_rot, vwrist_ver,  vgripper);
 }
-
-
-
-
+void Position6() {
+    vbase -= 10;
+    velbow -= 10;
+    vwrist_rot -= 10;
+    Braccio.ServoMovement(vspeed, vbase, vshoulder, velbow, vwrist_rot, vwrist_ver,  vgripper);
+}
