@@ -1,5 +1,6 @@
 import argparse
 from scripts.crs import initialize, detect, deinitialize
+from scripts.robot import robotControl
 
 def main(args):
 	initialize()
@@ -7,7 +8,13 @@ def main(args):
 	try:
 		while True:
 			results = detect(args.show)
-			print('\nRESULTS: ', results[0], results[1], results[2].x, results[2].y, results[3].x, results[3].y)
+			# results[0]: True/False - Cup with hot water detected
+			# results[1].x: 0-100 - x-Coordinates of the detected cup
+			# results[1].y: 0-100 - y-Coordinates of the detected cup
+			# results[2].x: 0-100 - x-Size of the detected cup
+			# results[2].y: 0-100 - y-Size of the detected cup
+			print('\nRESULTS: ', results[0], results[1].x, results[1].y, results[2].x, results[2].y)
+			robotControl(results)
 	except KeyboardInterrupt:
 		pass
 
