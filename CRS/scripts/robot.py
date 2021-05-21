@@ -4,3 +4,4 @@ def robotControl(results):
 	# results[1].y: 0-100 - y-Coordinates of the detected cup
 	# results[2].x: 0-100 - x-Size of the detected cup
 	# results[2].y: 0-100 - y-Size of the detected cup
+	print('robot doin stuff')
