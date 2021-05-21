@@ -104,19 +104,23 @@ def giveCenter(x1, x2):
 
 # Checks if the deviation between two values is bigger than a certain threshold, returns true if not
 def checkDeviation(x1, x2):
-	threshold = 12
+	threshold = 15
 	if x1 > x2:
 		if x1 - x2 > threshold:
-			return false
+			print('Deviation: ', x1 - x2)
+			return False
 		else:
-			return true
+			print('Deviation: ', x1 - x2)
+			return True
 	elif x2 > x1:
 		if x2 - x1 > threshold:
-			return false
+			print('Deviation: ', x2 - x1)
+			return False
 		else:
-			return true
+			print('Deviation: ', x2 - x1)
+			return True
 	else:
-		return true
+		return True
 
 def detect(flag_show):
 	global ir_coords, ml_coords, ml_size # TODO: Make this non-global
@@ -205,22 +209,22 @@ def detect(flag_show):
 		ml_success = False
 	else:
 		# This checks that the cup is inside the rectangle of the camera and fails if its not TODO: Shouldnt fail when not
-		if results_numpy[0,1] > 48 and results_numpy[0,3] > 48 and results_numpy[0,1] < 368 and results_numpy[0,3] < 368:
-			results_numpy[0,1] -= 48
-			results_numpy[0,3] -= 48
+		if results_numpy[0,0] > 48 and results_numpy[0,2] > 48 and results_numpy[0,0] < 368 and results_numpy[0,2] < 368:
+	
+			# One Cup detected - standardize coordinates
+			ml_coords = standardizeCoords(giveCenter(results_numpy[0,0]-48, results_numpy[0,2]-48), giveCenter(results_numpy[0,1], results_numpy[0,3]), 320, 320)
+			#print('Koordinaten der Tasse: ', ml_coords.x, ml_coords.y)
+			ml_size.x = results_numpy[0,2] - results_numpy[0,0]
+			ml_size.y = results_numpy[0,3] - results_numpy[0,1]
+			ml_size = standardizeCoords(ml_size.x, ml_size.y, ml_dim.x, ml_dim.y)
+			#print('Groesse der Tasse: ', ml_size.x, ml_size.y)
+
 		else:
 			ml_success = False
 
-		# One Cup detected - standardize coordinates
-		ml_coords = standardizeCoords(giveCenter(results_numpy[0,0], results_numpy[0,2]), giveCenter(results_numpy[0,1], results_numpy[0,3]), 320, 320)
-		#print('Koordinaten der Tasse: ', ml_coords.x, ml_coords.y)
-		ml_size.x = results_numpy[0,2] - results_numpy[0,0]
-		ml_size.y = results_numpy[0,3] - results_numpy[0,1]
-		ml_size = standardizeCoords(ml_size.x, ml_size.y, ml_dim.x, ml_dim.y)
-		#print('Groesse der Tasse: ', ml_size.x, ml_size.y)
-
 	#--------------------- Combine coordinates, check for deviation
 	cup_detected = False
+	zero = Coordinates()
 	if ir_success and ml_success:
 		if checkDeviation(ir_coords.x, ml_coords.x) and checkDeviation(ir_coords.y, ml_coords.y):
 			cup_detected = True
@@ -228,8 +232,10 @@ def detect(flag_show):
 			coords.x = giveCenter(ir_coords.x, ml_coords.x)
 			coords.y = giveCenter(ir_coords.y, ml_coords.y)
 			return cup_detected, coords, ml_size
+		else:
+				print('Zu große Abweichung! - ', checkDeviation(ir_coords.x, ml_coords.x), ir_coords.x, ml_coords.x, checkDeviation(ir_coords.y, ml_coords.y), ir_coords.y, ml_coords.y)
+				return False, zero, zero
 	else:
-		zero = Coordinates()
 		return False, zero, zero
 
 def deinitialize():
