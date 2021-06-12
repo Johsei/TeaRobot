@@ -8,6 +8,8 @@ def main(args):
 	initialize()
 	pickup, ser = robotInit()
 	pickuptime = 0
+	disposetime = 0
+	disposed = True
 
 	try:
 		while True:
@@ -17,20 +19,26 @@ def main(args):
 			# results[1].y: 0-100 - y-Coordinates of the detected cup
 			# results[2].x: 0-100 - x-Size of the detected cup
 			# results[2].y: 0-100 - y-Size of the detected cup
+			current_time = datetime.datetime.today()
 			print('\nRESULTS: ', results[0], results[1].x, results[1].y, results[2].x, results[2].y)
-			if results[0] == True and pickup == False:
+			if results[0] == True and pickup == False and disposed == True:
 				print('\nRoboter holt Teebeutel')
 				pickuptime = robotPickup(ser)
 				pickup = True
-			elif results[0] == True and pickup == True:
+			elif results[0] == True and pickup == True and disposed == True:
 				robotMove(results, ser)
 			if pickuptime != 0:
-				current_time = datetime.datetime.today()
-				difference = (current_time - pickuptime)
-				time_difference = difference.total_seconds()
+				time_difference = (current_time - pickuptime).total_seconds()
 				if time_difference > 180:
-					robotDispose(ser)
+					disposetime = robotDispose(ser)
+					disposed = False
 					pickup = False
+					pickuptime = 0
+			if disposetime != 0:
+				time_difference = (current_time - disposetime).total_seconds()
+				if time_difference > 120:
+					disposed = True
+					disposetime = 0
 	except KeyboardInterrupt:
 		pass
 
